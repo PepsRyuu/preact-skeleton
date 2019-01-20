@@ -1,0 +1,15 @@
+.vscode/
+.idea/
+dist/
+*.log
+node_modules/
+.DS_STORE
+.DS_Store
+*.swp
+.npm
+.eslintcache
+target/
+*.stackdump
+yarn.lock
+yarn-error.log
+npm-debug.log
