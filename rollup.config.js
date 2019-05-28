@@ -1,11 +1,11 @@
 let node_resolve = require('rollup-plugin-node-resolve');
-let buble = require('rollup-plugin-buble');
-let uglify = require('rollup-plugin-uglify').uglify;
+let babel = require('rollup-plugin-babel');
+let terser = require('rollup-plugin-terser').terser;
 let license = require('rollup-plugin-node-license');
 let css = require('rollup-plugin-hot-css');
 let static_files = require('rollup-plugin-static-files');
-
-let production = process.env.NODE_ENV === 'production';
+let glob_import = require('rollup-plugin-glob-import');
+let jsx = require('acorn-jsx');
 
 let scss = (code, id) => {
     return require('node-sass').renderSync({
@@ -16,7 +16,7 @@ let scss = (code, id) => {
 };
 
 let config = {
-    input: './src/main.js',
+    input: process.env.MAIN || './src/main.js',
     output: {
         dir: './dist',
         format: 'esm',
@@ -26,20 +26,21 @@ let config = {
     plugins: [
         css({
             filename: 'styles.css',
-            hot: !production,
+            hot: process.env.NODE_ENV !== 'production',
             transform: scss
         }),
-        buble({
-            jsx: 'h',
-            objectAssign: 'Object.assign'
-        }),
-        node_resolve()
+        node_resolve(),
+        babel(),
+        glob_import()
+    ],
+    acornInjectPlugins: [
+        jsx()
     ]
 };
 
-if (production) {
+if (process.env.NODE_ENV === 'production') {
     config.plugins = config.plugins.concat([
-        uglify({
+        terser({
             compress: {
                 global_defs: {
                     module: false

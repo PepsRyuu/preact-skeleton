@@ -3,6 +3,7 @@
     "contentBase": "./public",
     "historyApiFallback": true,
     "port": 9001,
+    "hmrHost": "localhost:9001",
     "proxy": {
         "/api": "http://localhost:8080"
     }
