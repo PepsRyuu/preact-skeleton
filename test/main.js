@@ -1,9 +1,7 @@
+import { h } from 'preact';
+import { shallow } from '@pepsryuu-dev/preact-render-spy';
 import './cases/*';
 
-if (module && module.hot) {
-    module.hot.accept(() => {
-        miui.reset();
-        require(module.id);
-        miui.run();
-    });
-}
+window.expect = global.require('chai').expect;
+window.shallow = shallow;
+window.h = h;

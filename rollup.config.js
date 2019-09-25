@@ -26,14 +26,15 @@ let config = {
     plugins: [
         css({
             filename: 'styles.css',
-            hot: process.env.NODE_ENV !== 'production',
+            hot: process.env.NODE_ENV === 'development',
             transform: scss
         }),
-        node_resolve(),
         babel(),
+        node_resolve(),
         glob_import()
     ],
     acornInjectPlugins: [
+        // Needed by glob import which parses in resolveId
         jsx()
     ]
 };
